@@ -1,5 +1,5 @@
 /**
- * Host half of the answer-share bundle.
+ * Host half of the session-copy-plus bundle.
  *
  * The feature is browser-only: it reads the finalized answer already rendered
  * in the Chat DOM and writes a PNG or rich-text HTML flavour to the clipboard.
@@ -8,7 +8,7 @@
  */
 
 /** Loader row name. */
-export const name = 'answer-share'
+export const name = 'session-copy-plus'
 
 /** Mount the bundle row. */
 export function apply() {}

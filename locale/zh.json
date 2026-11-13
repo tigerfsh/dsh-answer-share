@@ -14,5 +14,14 @@
   "toast.htmlCopied": "已复制富文本，可粘贴到支持 HTML 的应用",
   "toast.textCopied": "已复制纯文本（当前浏览器不支持富文本剪贴板）",
   "toast.noAnswer": "没有找到这条回答的内容",
-  "toast.failed": "复制失败：{reason}"
+  "toast.failed": "复制失败：{reason}",
+  "toast.unknownError": "发生未知错误",
+  "error.imageFetchFailed": "无法加载回答中的图片",
+  "error.imageTooLarge": "回答中的图片过大",
+  "error.readFailed": "无法读取回答中的图片",
+  "error.rasterizeFailed": "无法渲染这条回答",
+  "error.emptyAnswer": "这条回答没有内容",
+  "error.canvasUnavailable": "当前浏览器无法使用画布",
+  "error.pngEncodingFailed": "无法生成 PNG 图片",
+  "error.clipboardUnavailable": "当前浏览器无法使用剪贴板"
 }

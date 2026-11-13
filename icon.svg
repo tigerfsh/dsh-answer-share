@@ -1,8 +1,10 @@
 <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect x="7" y="4" width="22" height="28" rx="5" fill="#247BBF"/>
-  <rect x="11" y="9" width="14" height="2.4" rx="1.2" fill="#FFFFFF" fill-opacity="0.92"/>
-  <rect x="11" y="14" width="10" height="2.4" rx="1.2" fill="#FFFFFF" fill-opacity="0.72"/>
-  <rect x="11" y="21" width="14" height="8" rx="2.4" fill="#FFFFFF" fill-opacity="0.94"/>
-  <circle cx="15.2" cy="23.8" r="1.5" fill="#247BBF"/>
-  <path d="M11.6 28.4L15.4 24.6L18.1 27L19.9 25.2L24.4 28.4" stroke="#247BBF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <title>Enhanced copy</title>
+  <desc>A blue copy icon with a red plus badge in the upper-right corner.</desc>
+  <rect x="11.5" y="4" width="18.5" height="22" rx="4.5" fill="#8CC4EA"/>
+  <rect x="5.5" y="9" width="19" height="23" rx="4.5" fill="#247BBF"/>
+  <rect x="10.25" y="14" width="9.5" height="2.2" rx="1.1" fill="#FFFFFF" fill-opacity="0.95"/>
+  <rect x="10.25" y="18.5" width="7" height="2.2" rx="1.1" fill="#FFFFFF" fill-opacity="0.76"/>
+  <path d="M28 4.8V12.2M24.3 8.5H31.7" stroke="#FFFFFF" stroke-width="5.6" stroke-linecap="round"/>
+  <path d="M28 4.8V12.2M24.3 8.5H31.7" stroke="#E53935" stroke-width="2.7" stroke-linecap="round"/>
 </svg>

@@ -1,0 +1,27 @@
+{
+  "meta": {
+    "title": "Copie et capture de réponse",
+    "description": "Ajoute une action à chaque réponse finalisée : par défaut, elle copie la réponse rendue sous forme d'image PNG longue, prête à être collée dans DingTalk ; un petit menu permet aussi de copier le HTML enrichi ou de télécharger l'image. Le bouton de copie de texte brut d'origine reste inchangé."
+  },
+  "action.image": "Copier la réponse en image",
+  "action.more": "Plus d'options de copie",
+  "menu.image": "Copier en image (par défaut)",
+  "menu.html": "Copier en HTML enrichi",
+  "menu.download": "Télécharger l'image PNG",
+  "toast.imageCopied": "Image de la réponse copiée. Collez-la dans DingTalk.",
+  "toast.imageCopiedScaled": "Image de la réponse copiée (réduite car la réponse est très longue).",
+  "toast.imageDownloaded": "Image de la réponse téléchargée.",
+  "toast.htmlCopied": "Texte enrichi copié. Collez-le dans un éditeur compatible HTML.",
+  "toast.textCopied": "Texte brut copié (ce navigateur ne prend pas en charge le presse-papiers enrichi).",
+  "toast.noAnswer": "Impossible de trouver le contenu de cette réponse.",
+  "toast.failed": "Échec de la copie : {reason}",
+  "toast.unknownError": "Une erreur inattendue s'est produite.",
+  "error.imageFetchFailed": "Impossible de charger une image de la réponse.",
+  "error.imageTooLarge": "Une image de la réponse est trop volumineuse.",
+  "error.readFailed": "Impossible de lire une image de la réponse.",
+  "error.rasterizeFailed": "Impossible d'afficher la réponse.",
+  "error.emptyAnswer": "La réponse est vide.",
+  "error.canvasUnavailable": "Canvas n'est pas disponible dans ce navigateur.",
+  "error.pngEncodingFailed": "Impossible de générer l'image PNG.",
+  "error.clipboardUnavailable": "Le presse-papiers n'est pas disponible dans ce navigateur."
+}

@@ -1,0 +1,27 @@
+{
+  "meta": {
+    "title": "Copiar e capturar resposta",
+    "description": "Adiciona uma ação a cada resposta finalizada: por padrão, copia a resposta renderizada como uma imagem PNG longa, pronta para colar no DingTalk; um pequeno menu também copia HTML formatado ou baixa a imagem. O botão original de copiar texto simples não é alterado."
+  },
+  "action.image": "Copiar resposta como imagem",
+  "action.more": "Mais opções de cópia",
+  "menu.image": "Copiar como imagem (padrão)",
+  "menu.html": "Copiar como HTML formatado",
+  "menu.download": "Baixar imagem PNG",
+  "toast.imageCopied": "Imagem da resposta copiada. Cole no DingTalk.",
+  "toast.imageCopiedScaled": "Imagem da resposta copiada (reduzida por ser uma resposta muito longa).",
+  "toast.imageDownloaded": "Imagem da resposta baixada.",
+  "toast.htmlCopied": "Texto formatado copiado. Cole em um editor compatível com HTML.",
+  "toast.textCopied": "Texto simples copiado (este navegador não oferece suporte a área de transferência formatada).",
+  "toast.noAnswer": "Não foi possível encontrar o conteúdo desta resposta.",
+  "toast.failed": "Falha ao copiar: {reason}",
+  "toast.unknownError": "Ocorreu um erro inesperado.",
+  "error.imageFetchFailed": "Não foi possível carregar uma imagem da resposta.",
+  "error.imageTooLarge": "Uma imagem da resposta é muito grande.",
+  "error.readFailed": "Não foi possível ler uma imagem da resposta.",
+  "error.rasterizeFailed": "Não foi possível renderizar a resposta.",
+  "error.emptyAnswer": "A resposta está vazia.",
+  "error.canvasUnavailable": "O Canvas não está disponível neste navegador.",
+  "error.pngEncodingFailed": "Não foi possível gerar a imagem PNG.",
+  "error.clipboardUnavailable": "A área de transferência não está disponível neste navegador."
+}

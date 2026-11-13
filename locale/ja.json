@@ -1,0 +1,27 @@
+{
+  "meta": {
+    "title": "回答のコピーとスクリーンショット",
+    "description": "確定した各回答の操作バーにボタンを追加します。既定では、レンダリングされた回答を長い PNG 画像としてコピーし、DingTalk などにそのまま貼り付けられます。小さなメニューからリッチテキスト HTML のコピーや画像のダウンロードもできます。元のプレーンテキストコピーボタンは変更されません。"
+  },
+  "action.image": "回答を画像としてコピー",
+  "action.more": "その他のコピー方法",
+  "menu.image": "画像としてコピー（既定）",
+  "menu.html": "リッチテキスト HTML としてコピー",
+  "menu.download": "PNG 画像をダウンロード",
+  "toast.imageCopied": "回答画像をコピーしました。DingTalk に貼り付けられます。",
+  "toast.imageCopiedScaled": "回答画像をコピーしました（長い回答のため縮小しています）。",
+  "toast.imageDownloaded": "回答画像をダウンロードしました。",
+  "toast.htmlCopied": "リッチテキストをコピーしました。HTML に対応したアプリに貼り付けられます。",
+  "toast.textCopied": "プレーンテキストをコピーしました（このブラウザーはリッチテキストのクリップボードに対応していません）。",
+  "toast.noAnswer": "この回答の内容が見つかりませんでした。",
+  "toast.failed": "コピーに失敗しました：{reason}",
+  "toast.unknownError": "予期しないエラーが発生しました。",
+  "error.imageFetchFailed": "回答内の画像を読み込めませんでした。",
+  "error.imageTooLarge": "回答内の画像が大きすぎます。",
+  "error.readFailed": "回答内の画像を読み取れませんでした。",
+  "error.rasterizeFailed": "回答を描画できませんでした。",
+  "error.emptyAnswer": "回答が空です。",
+  "error.canvasUnavailable": "このブラウザーでは Canvas を利用できません。",
+  "error.pngEncodingFailed": "PNG 画像を生成できませんでした。",
+  "error.clipboardUnavailable": "このブラウザーではクリップボードを利用できません。"
+}

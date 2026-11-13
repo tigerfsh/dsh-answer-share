@@ -1,5 +1,5 @@
 window.__ModuleLoader__.load({
-  id: 'dsh-answer-share',
+  id: '@fushouhai/dsh-session-copy-plus',
   factory(require) {
     const React = require('react')
     const h = React.createElement
@@ -23,34 +23,192 @@ window.__ModuleLoader__.load({
     /** Maximum inlined image bytes in one output. */
     const MAX_IMAGE_BYTES = 4 * 1024 * 1024
 
-    const zh = {
-      'action.image': '复制回答为图片',
-      'action.more': '更多复制方式',
-      'menu.image': '复制为图片（默认）',
-      'menu.html': '复制为富文本 HTML',
-      'menu.download': '下载 PNG 图片',
-      'toast.imageCopied': '已复制回答图片，可直接粘贴到钉钉',
-      'toast.imageCopiedScaled': '已复制回答图片（内容较长，已等比缩小）',
-      'toast.imageDownloaded': '已下载回答图片',
-      'toast.htmlCopied': '已复制富文本，可粘贴到支持 HTML 的应用',
-      'toast.textCopied': '已复制纯文本（当前浏览器不支持富文本剪贴板）',
-      'toast.noAnswer': '没有找到这条回答的内容',
-      'toast.failed': '复制失败：{reason}',
-    }
-
-    const en = {
-      'action.image': 'Copy answer as image',
-      'action.more': 'More copy options',
-      'menu.image': 'Copy as image (default)',
-      'menu.html': 'Copy as rich-text HTML',
-      'menu.download': 'Download PNG image',
-      'toast.imageCopied': 'Answer image copied. Paste it into DingTalk.',
-      'toast.imageCopiedScaled': 'Answer image copied (scaled down for a very long answer).',
-      'toast.imageDownloaded': 'Answer image downloaded.',
-      'toast.htmlCopied': 'Rich text copied. Paste it into an HTML-aware editor.',
-      'toast.textCopied': 'Plain text copied (this browser has no rich-text clipboard).',
-      'toast.noAnswer': "Could not find this answer's content.",
-      'toast.failed': 'Copy failed: {reason}',
+    /** User-facing strings, kept in sync with the locale/*.json dictionaries. */
+    const DICTIONARIES = {
+      zh: {
+        "action.image": "复制回答为图片",
+        "action.more": "更多复制方式",
+        "menu.image": "复制为图片（默认）",
+        "menu.html": "复制为富文本 HTML",
+        "menu.download": "下载 PNG 图片",
+        "toast.imageCopied": "已复制回答图片，可直接粘贴到钉钉",
+        "toast.imageCopiedScaled": "已复制回答图片（内容较长，已等比缩小）",
+        "toast.imageDownloaded": "已下载回答图片",
+        "toast.htmlCopied": "已复制富文本，可粘贴到支持 HTML 的应用",
+        "toast.textCopied": "已复制纯文本（当前浏览器不支持富文本剪贴板）",
+        "toast.noAnswer": "没有找到这条回答的内容",
+        "toast.failed": "复制失败：{reason}",
+        "toast.unknownError": "发生未知错误",
+        "error.imageFetchFailed": "无法加载回答中的图片",
+        "error.imageTooLarge": "回答中的图片过大",
+        "error.readFailed": "无法读取回答中的图片",
+        "error.rasterizeFailed": "无法渲染这条回答",
+        "error.emptyAnswer": "这条回答没有内容",
+        "error.canvasUnavailable": "当前浏览器无法使用画布",
+        "error.pngEncodingFailed": "无法生成 PNG 图片",
+        "error.clipboardUnavailable": "当前浏览器无法使用剪贴板"
+      },
+      en: {
+        "action.image": "Copy answer as image",
+        "action.more": "More copy options",
+        "menu.image": "Copy as image (default)",
+        "menu.html": "Copy as rich-text HTML",
+        "menu.download": "Download PNG image",
+        "toast.imageCopied": "Answer image copied. Paste it into DingTalk.",
+        "toast.imageCopiedScaled": "Answer image copied (scaled down for a very long answer).",
+        "toast.imageDownloaded": "Answer image downloaded.",
+        "toast.htmlCopied": "Rich text copied. Paste it into an HTML-aware editor.",
+        "toast.textCopied": "Plain text copied (this browser has no rich-text clipboard).",
+        "toast.noAnswer": "Could not find this answer's content.",
+        "toast.failed": "Copy failed: {reason}",
+        "toast.unknownError": "An unexpected error occurred.",
+        "error.imageFetchFailed": "Could not load an image from the answer.",
+        "error.imageTooLarge": "An image in the answer is too large.",
+        "error.readFailed": "Could not read an image from the answer.",
+        "error.rasterizeFailed": "Could not render the answer.",
+        "error.emptyAnswer": "The answer is empty.",
+        "error.canvasUnavailable": "Canvas is unavailable in this browser.",
+        "error.pngEncodingFailed": "Could not generate the PNG image.",
+        "error.clipboardUnavailable": "Clipboard is unavailable in this browser."
+      },
+      ja: {
+        "action.image": "回答を画像としてコピー",
+        "action.more": "その他のコピー方法",
+        "menu.image": "画像としてコピー（既定）",
+        "menu.html": "リッチテキスト HTML としてコピー",
+        "menu.download": "PNG 画像をダウンロード",
+        "toast.imageCopied": "回答画像をコピーしました。DingTalk に貼り付けられます。",
+        "toast.imageCopiedScaled": "回答画像をコピーしました（長い回答のため縮小しています）。",
+        "toast.imageDownloaded": "回答画像をダウンロードしました。",
+        "toast.htmlCopied": "リッチテキストをコピーしました。HTML に対応したアプリに貼り付けられます。",
+        "toast.textCopied": "プレーンテキストをコピーしました（このブラウザーはリッチテキストのクリップボードに対応していません）。",
+        "toast.noAnswer": "この回答の内容が見つかりませんでした。",
+        "toast.failed": "コピーに失敗しました：{reason}",
+        "toast.unknownError": "予期しないエラーが発生しました。",
+        "error.imageFetchFailed": "回答内の画像を読み込めませんでした。",
+        "error.imageTooLarge": "回答内の画像が大きすぎます。",
+        "error.readFailed": "回答内の画像を読み取れませんでした。",
+        "error.rasterizeFailed": "回答を描画できませんでした。",
+        "error.emptyAnswer": "回答が空です。",
+        "error.canvasUnavailable": "このブラウザーでは Canvas を利用できません。",
+        "error.pngEncodingFailed": "PNG 画像を生成できませんでした。",
+        "error.clipboardUnavailable": "このブラウザーではクリップボードを利用できません。"
+      },
+      es: {
+        "action.image": "Copiar respuesta como imagen",
+        "action.more": "Más opciones de copia",
+        "menu.image": "Copiar como imagen (predeterminado)",
+        "menu.html": "Copiar como HTML con formato",
+        "menu.download": "Descargar imagen PNG",
+        "toast.imageCopied": "Imagen de la respuesta copiada. Pégala en DingTalk.",
+        "toast.imageCopiedScaled": "Imagen de la respuesta copiada (reducida por ser una respuesta muy larga).",
+        "toast.imageDownloaded": "Imagen de la respuesta descargada.",
+        "toast.htmlCopied": "Texto enriquecido copiado. Pégalo en un editor compatible con HTML.",
+        "toast.textCopied": "Texto sin formato copiado (este navegador no admite portapapeles con formato).",
+        "toast.noAnswer": "No se encontró el contenido de esta respuesta.",
+        "toast.failed": "Error al copiar: {reason}",
+        "toast.unknownError": "Se produjo un error inesperado.",
+        "error.imageFetchFailed": "No se pudo cargar una imagen de la respuesta.",
+        "error.imageTooLarge": "Una imagen de la respuesta es demasiado grande.",
+        "error.readFailed": "No se pudo leer una imagen de la respuesta.",
+        "error.rasterizeFailed": "No se pudo renderizar la respuesta.",
+        "error.emptyAnswer": "La respuesta está vacía.",
+        "error.canvasUnavailable": "Canvas no está disponible en este navegador.",
+        "error.pngEncodingFailed": "No se pudo generar la imagen PNG.",
+        "error.clipboardUnavailable": "El portapapeles no está disponible en este navegador."
+      },
+      fr: {
+        "action.image": "Copier la réponse en image",
+        "action.more": "Plus d'options de copie",
+        "menu.image": "Copier en image (par défaut)",
+        "menu.html": "Copier en HTML enrichi",
+        "menu.download": "Télécharger l'image PNG",
+        "toast.imageCopied": "Image de la réponse copiée. Collez-la dans DingTalk.",
+        "toast.imageCopiedScaled": "Image de la réponse copiée (réduite car la réponse est très longue).",
+        "toast.imageDownloaded": "Image de la réponse téléchargée.",
+        "toast.htmlCopied": "Texte enrichi copié. Collez-le dans un éditeur compatible HTML.",
+        "toast.textCopied": "Texte brut copié (ce navigateur ne prend pas en charge le presse-papiers enrichi).",
+        "toast.noAnswer": "Impossible de trouver le contenu de cette réponse.",
+        "toast.failed": "Échec de la copie : {reason}",
+        "toast.unknownError": "Une erreur inattendue s'est produite.",
+        "error.imageFetchFailed": "Impossible de charger une image de la réponse.",
+        "error.imageTooLarge": "Une image de la réponse est trop volumineuse.",
+        "error.readFailed": "Impossible de lire une image de la réponse.",
+        "error.rasterizeFailed": "Impossible d'afficher la réponse.",
+        "error.emptyAnswer": "La réponse est vide.",
+        "error.canvasUnavailable": "Canvas n'est pas disponible dans ce navigateur.",
+        "error.pngEncodingFailed": "Impossible de générer l'image PNG.",
+        "error.clipboardUnavailable": "Le presse-papiers n'est pas disponible dans ce navigateur."
+      },
+      de: {
+        "action.image": "Antwort als Bild kopieren",
+        "action.more": "Weitere Kopieroptionen",
+        "menu.image": "Als Bild kopieren (Standard)",
+        "menu.html": "Als Rich-Text-HTML kopieren",
+        "menu.download": "PNG-Bild herunterladen",
+        "toast.imageCopied": "Antwortbild kopiert. Füge es in DingTalk ein.",
+        "toast.imageCopiedScaled": "Antwortbild kopiert (für eine sehr lange Antwort verkleinert).",
+        "toast.imageDownloaded": "Antwortbild heruntergeladen.",
+        "toast.htmlCopied": "Rich-Text kopiert. Füge ihn in einen HTML-fähigen Editor ein.",
+        "toast.textCopied": "Nur Text kopiert (dieser Browser unterstützt keine Rich-Text-Zwischenablage).",
+        "toast.noAnswer": "Der Inhalt dieser Antwort wurde nicht gefunden.",
+        "toast.failed": "Kopieren fehlgeschlagen: {reason}",
+        "toast.unknownError": "Ein unerwarteter Fehler ist aufgetreten.",
+        "error.imageFetchFailed": "Ein Bild der Antwort konnte nicht geladen werden.",
+        "error.imageTooLarge": "Ein Bild der Antwort ist zu groß.",
+        "error.readFailed": "Ein Bild der Antwort konnte nicht gelesen werden.",
+        "error.rasterizeFailed": "Die Antwort konnte nicht gerendert werden.",
+        "error.emptyAnswer": "Die Antwort ist leer.",
+        "error.canvasUnavailable": "Canvas ist in diesem Browser nicht verfügbar.",
+        "error.pngEncodingFailed": "Das PNG-Bild konnte nicht erzeugt werden.",
+        "error.clipboardUnavailable": "Die Zwischenablage ist in diesem Browser nicht verfügbar."
+      },
+      ru: {
+        "action.image": "Скопировать ответ как изображение",
+        "action.more": "Другие способы копирования",
+        "menu.image": "Копировать как изображение (по умолчанию)",
+        "menu.html": "Копировать как форматированный HTML",
+        "menu.download": "Скачать PNG-изображение",
+        "toast.imageCopied": "Изображение ответа скопировано. Вставьте его в DingTalk.",
+        "toast.imageCopiedScaled": "Изображение ответа скопировано (уменьшено из-за большого размера ответа).",
+        "toast.imageDownloaded": "Изображение ответа скачано.",
+        "toast.htmlCopied": "Форматированный текст скопирован. Вставьте его в редактор с поддержкой HTML.",
+        "toast.textCopied": "Скопирован простой текст (браузер не поддерживает форматированный буфер обмена).",
+        "toast.noAnswer": "Не удалось найти содержимое этого ответа.",
+        "toast.failed": "Не удалось скопировать: {reason}",
+        "toast.unknownError": "Произошла непредвиденная ошибка.",
+        "error.imageFetchFailed": "Не удалось загрузить изображение из ответа.",
+        "error.imageTooLarge": "Изображение в ответе слишком большое.",
+        "error.readFailed": "Не удалось прочитать изображение из ответа.",
+        "error.rasterizeFailed": "Не удалось отрисовать ответ.",
+        "error.emptyAnswer": "Ответ пуст.",
+        "error.canvasUnavailable": "Canvas недоступен в этом браузере.",
+        "error.pngEncodingFailed": "Не удалось создать PNG-изображение.",
+        "error.clipboardUnavailable": "Буфер обмена недоступен в этом браузере."
+      },
+      pt: {
+        "action.image": "Copiar resposta como imagem",
+        "action.more": "Mais opções de cópia",
+        "menu.image": "Copiar como imagem (padrão)",
+        "menu.html": "Copiar como HTML formatado",
+        "menu.download": "Baixar imagem PNG",
+        "toast.imageCopied": "Imagem da resposta copiada. Cole no DingTalk.",
+        "toast.imageCopiedScaled": "Imagem da resposta copiada (reduzida por ser uma resposta muito longa).",
+        "toast.imageDownloaded": "Imagem da resposta baixada.",
+        "toast.htmlCopied": "Texto formatado copiado. Cole em um editor compatível com HTML.",
+        "toast.textCopied": "Texto simples copiado (este navegador não oferece suporte a área de transferência formatada).",
+        "toast.noAnswer": "Não foi possível encontrar o conteúdo desta resposta.",
+        "toast.failed": "Falha ao copiar: {reason}",
+        "toast.unknownError": "Ocorreu um erro inesperado.",
+        "error.imageFetchFailed": "Não foi possível carregar uma imagem da resposta.",
+        "error.imageTooLarge": "Uma imagem da resposta é muito grande.",
+        "error.readFailed": "Não foi possível ler uma imagem da resposta.",
+        "error.rasterizeFailed": "Não foi possível renderizar a resposta.",
+        "error.emptyAnswer": "A resposta está vazia.",
+        "error.canvasUnavailable": "O Canvas não está disponível neste navegador.",
+        "error.pngEncodingFailed": "Não foi possível gerar a imagem PNG.",
+        "error.clipboardUnavailable": "A área de transferência não está disponível neste navegador."
+      },
     }
 
     /** Host theme token styling for the action, menu, and toast. */
@@ -107,9 +265,20 @@ window.__ModuleLoader__.load({
       }
     }
 
-    function messageOf(error) {
-      if (error instanceof Error) return error.message
-      return String(error)
+    /** An expected failure whose user-facing reason is a locale key. */
+    class LocalizedError extends Error {
+      constructor(key) {
+        super(key)
+        this.name = 'LocalizedError'
+        this.localeKey = key
+      }
+    }
+
+    /** Resolve a caught failure without leaking untranslated internal messages. */
+    function errorReason(error, t) {
+      if (error instanceof LocalizedError) return t(error.localeKey)
+      console.error('[@fushouhai/dsh-session-copy-plus]', error)
+      return t('toast.unknownError')
     }
 
     function nextFrame() {
@@ -213,7 +382,7 @@ window.__ModuleLoader__.load({
       return new Promise((resolve, reject) => {
         const reader = new FileReader()
         reader.onload = () => resolve(String(reader.result))
-        reader.onerror = () => reject(reader.error ?? new Error('read failed'))
+        reader.onerror = () => reject(new LocalizedError('error.readFailed'))
         reader.readAsDataURL(blob)
       })
     }
@@ -230,9 +399,9 @@ window.__ModuleLoader__.load({
         if (src.startsWith('data:')) continue
         try {
           const response = await fetch(src, { credentials: 'include' })
-          if (!response.ok) throw new Error(`HTTP ${response.status}`)
+          if (!response.ok) throw new LocalizedError('error.imageFetchFailed')
           const blob = await response.blob()
-          if (blob.size > MAX_IMAGE_BYTES) throw new Error('image too large')
+          if (blob.size > MAX_IMAGE_BYTES) throw new LocalizedError('error.imageTooLarge')
           image.setAttribute('src', await blobToDataUrl(blob))
         } catch {
           image.remove()
@@ -346,7 +515,7 @@ window.__ModuleLoader__.load({
       return new Promise((resolve, reject) => {
         const image = new Image()
         image.onload = () => resolve(image)
-        image.onerror = () => reject(new Error('could not rasterize the answer'))
+        image.onerror = () => reject(new LocalizedError('error.rasterizeFailed'))
         image.src = source
       })
     }
@@ -392,7 +561,7 @@ window.__ModuleLoader__.load({
         await nextFrame()
         const width = Math.ceil(holder.getBoundingClientRect().width)
         const height = Math.ceil(holder.scrollHeight)
-        if (width < 2 || height < 2) throw new Error('the answer is empty')
+        if (width < 2 || height < 2) throw new LocalizedError('error.emptyAnswer')
         const serialized = new XMLSerializer().serializeToString(holder)
         const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">`
           + `<foreignObject x="0" y="0" width="${width}" height="${height}">${serialized}</foreignObject></svg>`
@@ -405,13 +574,13 @@ window.__ModuleLoader__.load({
         canvas.width = Math.max(1, Math.round(width * scale))
         canvas.height = Math.max(1, Math.round(height * scale))
         const context = canvas.getContext('2d')
-        if (context === null) throw new Error('canvas is unavailable')
+        if (context === null) throw new LocalizedError('error.canvasUnavailable')
         context.fillStyle = '#ffffff'
         context.fillRect(0, 0, canvas.width, canvas.height)
         context.setTransform(scale, 0, 0, scale, 0, 0)
         context.drawImage(image, 0, 0)
         const blob = await canvasToBlob(canvas)
-        if (blob === null) throw new Error('PNG encoding failed')
+        if (blob === null) throw new LocalizedError('error.pngEncodingFailed')
         return { blob, width, height, scaled: scale < 2 }
       } finally {
         stage.remove()
@@ -461,20 +630,28 @@ window.__ModuleLoader__.load({
           // Fall through to a plain-text write.
         }
       }
-      if (navigator.clipboard?.writeText === undefined) throw new Error('clipboard is unavailable')
+      if (navigator.clipboard?.writeText === undefined) throw new LocalizedError('error.clipboardUnavailable')
       await navigator.clipboard.writeText(text)
       showToast(t('toast.textCopied'), 'warn')
     }
 
-    function ImageIcon() {
+    /** Enhanced copy action: the usual overlapping-page copy mark with a red plus. */
+    function EnhancedCopyIcon() {
       return h('svg', {
-        viewBox: '0 0 24 24', width: 16, height: 16, fill: 'none',
-        stroke: 'currentColor', strokeWidth: 1.7, strokeLinecap: 'round', strokeLinejoin: 'round',
+        viewBox: '0 0 20 20', width: 17, height: 17, fill: 'none',
+        stroke: 'currentColor', strokeWidth: 1.25, strokeLinecap: 'round', strokeLinejoin: 'round',
         'aria-hidden': 'true',
       },
-      h('rect', { x: 3, y: 4, width: 18, height: 16, rx: 3 }),
-      h('circle', { cx: 8.4, cy: 9.4, r: 1.5 }),
-      h('path', { d: 'M4.8 17.4l4.9-4.9 3.4 3 2.4-2.4 4.1 4.1' }))
+      h('g', { transform: 'translate(0 2.6) scale(.88)' },
+        h('rect', { x: 1.52075, y: 4.07373, width: 10.3932, height: 10.3932, rx: 2 }),
+        h('path', {
+          d: 'M11.9792 1.53296C13.36 1.53296 14.4792 2.65225 14.4792 4.03296V9.42847C14.4792 10.3756 13.9521 11.1987 13.1755 11.6228V10.3298C13.3652 10.0787 13.4792 9.7674 13.4792 9.42847V4.03296C13.4792 3.20453 12.8077 2.53296 11.9792 2.53296H6.58374C6.27966 2.53301 5.99684 2.6235 5.7605 2.77905H4.42358C4.85652 2.03463 5.66056 1.53304 6.58374 1.53296H11.9792Z',
+          fill: 'currentColor', stroke: 'none',
+        })),
+      h('path', {
+        d: 'M15.75 2.55V6.85M13.6 4.7H17.9',
+        stroke: '#E53935', strokeWidth: 2.05, strokeLinecap: 'round',
+      }))
     }
 
     function CaretIcon() {
@@ -486,7 +663,7 @@ window.__ModuleLoader__.load({
     }
 
     function AnswerShareAction(props) {
-      const t = typeof props.t === 'function' ? props.t : key => zh[key] ?? key
+      const t = typeof props.t === 'function' ? props.t : key => DICTIONARIES.zh[key] ?? key
       const rootRef = React.useRef(null)
       const menuRef = React.useRef(null)
       const busyRef = React.useRef(false)
@@ -527,7 +704,7 @@ window.__ModuleLoader__.load({
           else if (kind === 'download') await downloadAnswerImage(answer, t)
           else await copyAnswerImage(answer, t)
         } catch (error) {
-          showToast(t('toast.failed').replace('{reason}', messageOf(error)), 'error')
+          showToast(t('toast.failed').replace('{reason}', errorReason(error, t)), 'error')
         } finally {
           busyRef.current = false
           setBusy(false)
@@ -573,7 +750,7 @@ window.__ModuleLoader__.load({
         title: t('action.image'),
         'aria-label': t('action.image'),
         onClick: () => { void run('image') },
-      }, h(ImageIcon)),
+      }, h(EnhancedCopyIcon)),
       h('button', {
         type: 'button',
         className: 'dsh-ans-share-caret',
@@ -594,7 +771,7 @@ window.__ModuleLoader__.load({
     return {
       inject: ['slots', 'locale'],
       apply(ctx) {
-        ctx.effect(() => ctx.locale.register(NS, { zh, en }), 'dsh-answer-share: dictionaries')
+        ctx.effect(() => ctx.locale.register(NS, DICTIONARIES), '@fushouhai/dsh-session-copy-plus: dictionaries')
         ctx.effect(() => {
           const style = document.createElement('style')
           style.dataset.dshAnswerShare = ''
@@ -604,7 +781,7 @@ window.__ModuleLoader__.load({
             style.remove()
             disposeToast()
           }
-        }, 'dsh-answer-share: styles and toast')
+        }, '@fushouhai/dsh-session-copy-plus: styles and toast')
         ctx.slots.inject('conversation.chat.assistant-actions', () => ctx.slots.register({
           name: 'conversation.chat.assistant-actions',
           id: 'answer-share',

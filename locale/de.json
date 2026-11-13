@@ -1,0 +1,27 @@
+{
+  "meta": {
+    "title": "Antwort kopieren & Screenshot",
+    "description": "Fügt jeder abgeschlossenen Antwort eine Aktion hinzu: Standardmäßig wird die gerenderte Antwort als langes PNG-Bild kopiert, das direkt in DingTalk eingefügt werden kann; ein kleines Menü kopiert außerdem Rich-Text-HTML oder lädt das Bild herunter. Die ursprüngliche Schaltfläche zum Kopieren von reinem Text bleibt unverändert."
+  },
+  "action.image": "Antwort als Bild kopieren",
+  "action.more": "Weitere Kopieroptionen",
+  "menu.image": "Als Bild kopieren (Standard)",
+  "menu.html": "Als Rich-Text-HTML kopieren",
+  "menu.download": "PNG-Bild herunterladen",
+  "toast.imageCopied": "Antwortbild kopiert. Füge es in DingTalk ein.",
+  "toast.imageCopiedScaled": "Antwortbild kopiert (für eine sehr lange Antwort verkleinert).",
+  "toast.imageDownloaded": "Antwortbild heruntergeladen.",
+  "toast.htmlCopied": "Rich-Text kopiert. Füge ihn in einen HTML-fähigen Editor ein.",
+  "toast.textCopied": "Nur Text kopiert (dieser Browser unterstützt keine Rich-Text-Zwischenablage).",
+  "toast.noAnswer": "Der Inhalt dieser Antwort wurde nicht gefunden.",
+  "toast.failed": "Kopieren fehlgeschlagen: {reason}",
+  "toast.unknownError": "Ein unerwarteter Fehler ist aufgetreten.",
+  "error.imageFetchFailed": "Ein Bild der Antwort konnte nicht geladen werden.",
+  "error.imageTooLarge": "Ein Bild der Antwort ist zu groß.",
+  "error.readFailed": "Ein Bild der Antwort konnte nicht gelesen werden.",
+  "error.rasterizeFailed": "Die Antwort konnte nicht gerendert werden.",
+  "error.emptyAnswer": "Die Antwort ist leer.",
+  "error.canvasUnavailable": "Canvas ist in diesem Browser nicht verfügbar.",
+  "error.pngEncodingFailed": "Das PNG-Bild konnte nicht erzeugt werden.",
+  "error.clipboardUnavailable": "Die Zwischenablage ist in diesem Browser nicht verfügbar."
+}

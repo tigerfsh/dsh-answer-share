@@ -14,5 +14,14 @@
   "toast.htmlCopied": "Rich text copied. Paste it into an HTML-aware editor.",
   "toast.textCopied": "Plain text copied (this browser has no rich-text clipboard).",
   "toast.noAnswer": "Could not find this answer's content.",
-  "toast.failed": "Copy failed: {reason}"
+  "toast.failed": "Copy failed: {reason}",
+  "toast.unknownError": "An unexpected error occurred.",
+  "error.imageFetchFailed": "Could not load an image from the answer.",
+  "error.imageTooLarge": "An image in the answer is too large.",
+  "error.readFailed": "Could not read an image from the answer.",
+  "error.rasterizeFailed": "Could not render the answer.",
+  "error.emptyAnswer": "The answer is empty.",
+  "error.canvasUnavailable": "Canvas is unavailable in this browser.",
+  "error.pngEncodingFailed": "Could not generate the PNG image.",
+  "error.clipboardUnavailable": "Clipboard is unavailable in this browser."
 }

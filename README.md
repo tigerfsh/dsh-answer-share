@@ -1,4 +1,4 @@
-# dsh-answer-share
+# @fushouhai/dsh-session-copy-plus
 
 Copy a finalized DeepSeek Harness answer as a long PNG image or as rich-text HTML.
 
@@ -37,7 +37,7 @@ and produces:
 From npm:
 
 ```sh
-dsh plugin --profile web add dsh-answer-share
+dsh plugin --profile web add @fushouhai/dsh-session-copy-plus
 ```
 
 From GitHub (pin a tag or commit for reproducible installs):
@@ -56,6 +56,15 @@ package is a Web bundle; it appears in **Settings → Plugins** as
 2. Hover the answer's action strip.
 3. Click the new picture action to copy the answer image; paste into DingTalk.
 4. Click the tiny arrow beside it for rich-text HTML or a PNG download.
+
+## Localization
+
+The action labels, menus, toast messages, error reasons, and plugin metadata
+follow the active DSH UI language. Dictionaries are included for Chinese,
+English, Japanese, Spanish, French, German, Russian, and Portuguese.
+
+When adding a language, keep `client.js`'s `DICTIONARIES` object and the
+matching `locale/<language>.json` file in sync.
 
 ## Limitations
 

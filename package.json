@@ -1,5 +1,5 @@
 {
-  "name": "dsh-answer-share",
+  "name": "@fushouhai/dsh-session-copy-plus",
   "version": "0.1.0",
   "type": "module",
   "description": "Copy a finalized DSH answer as a long PNG image (default) or as rich-text HTML, ready to paste into DingTalk and other editors.",
