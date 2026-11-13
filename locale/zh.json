@@ -1,0 +1,18 @@
+{
+  "meta": {
+    "title": "回答复制与截图",
+    "description": "在每条回答的操作栏新增一个按钮：默认把回答复制为长图 PNG，可直接粘贴到钉钉；下拉菜单还可复制富文本 HTML 或下载图片。原来的纯文本复制按钮保持不变。"
+  },
+  "action.image": "复制回答为图片",
+  "action.more": "更多复制方式",
+  "menu.image": "复制为图片（默认）",
+  "menu.html": "复制为富文本 HTML",
+  "menu.download": "下载 PNG 图片",
+  "toast.imageCopied": "已复制回答图片，可直接粘贴到钉钉",
+  "toast.imageCopiedScaled": "已复制回答图片（内容较长，已等比缩小）",
+  "toast.imageDownloaded": "已下载回答图片",
+  "toast.htmlCopied": "已复制富文本，可粘贴到支持 HTML 的应用",
+  "toast.textCopied": "已复制纯文本（当前浏览器不支持富文本剪贴板）",
+  "toast.noAnswer": "没有找到这条回答的内容",
+  "toast.failed": "复制失败：{reason}"
+}

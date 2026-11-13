@@ -1,0 +1,18 @@
+{
+  "meta": {
+    "title": "Answer copy & screenshot",
+    "description": "Adds one action to every finalized answer: by default it copies the rendered answer as a long PNG image ready to paste into DingTalk; a small menu also copies rich-text HTML or downloads the image. The original plain-text copy button is left unchanged."
+  },
+  "action.image": "Copy answer as image",
+  "action.more": "More copy options",
+  "menu.image": "Copy as image (default)",
+  "menu.html": "Copy as rich-text HTML",
+  "menu.download": "Download PNG image",
+  "toast.imageCopied": "Answer image copied. Paste it into DingTalk.",
+  "toast.imageCopiedScaled": "Answer image copied (scaled down for a very long answer).",
+  "toast.imageDownloaded": "Answer image downloaded.",
+  "toast.htmlCopied": "Rich text copied. Paste it into an HTML-aware editor.",
+  "toast.textCopied": "Plain text copied (this browser has no rich-text clipboard).",
+  "toast.noAnswer": "Could not find this answer's content.",
+  "toast.failed": "Copy failed: {reason}"
+}

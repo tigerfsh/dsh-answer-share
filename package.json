@@ -1,0 +1,65 @@
+{
+  "name": "dsh-answer-share",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Copy a finalized DSH answer as a long PNG image (default) or as rich-text HTML, ready to paste into DingTalk and other editors.",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg",
+    "README.md",
+    "LICENSE"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-conversation",
+        "@deepseek-ai/dsh-client-ui-renderer"
+      ]
+    }
+  },
+  "license": "MIT",
+  "author": "dsh-answer-share contributors",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "deepseek",
+    "clipboard",
+    "copy",
+    "screenshot",
+    "image",
+    "rich-text",
+    "html",
+    "dingtalk"
+  ],
+  "engines": {
+    "dsh": ">=0.2.1-rc.5 <0.3.0",
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tigerfsh/dsh-answer-share.git"
+  },
+  "homepage": "https://github.com/tigerfsh/dsh-answer-share#readme",
+  "bugs": {
+    "url": "https://github.com/tigerfsh/dsh-answer-share/issues"
+  }
+}
