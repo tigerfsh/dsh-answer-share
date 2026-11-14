@@ -785,7 +785,10 @@ window.__ModuleLoader__.load({
         ctx.slots.inject('conversation.chat.assistant-actions', () => ctx.slots.register({
           name: 'conversation.chat.assistant-actions',
           id: 'answer-share',
-          order: 20,
+          // Native copy is rendered by the host before this slot's entries;
+          // feedback registers at order 10, so a lower order keeps this action
+          // directly beside the native copy button.
+          order: 5,
           locale: NS,
           inject: sessionId => ({ sessionId }),
         }, AnswerShareAction))
