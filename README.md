@@ -57,6 +57,22 @@ package is a Web bundle; it appears in **Settings → Plugins** as
 3. Click the new picture action to copy the answer image; paste into DingTalk.
 4. Click the tiny arrow beside it for rich-text HTML or a PNG download.
 
+## Icon size
+
+The action icon defaults to 20.5px and is capped between 12px and 24px so it
+still fits the 28px action button.
+Open **Plugins → this bundle** and use the **Icon size** slider to change it.
+The choice is stored in the browser and applied to every answer immediately.
+
+For theme-level control, the same value can be supplied as the
+`--dsh-answer-share-icon-size` CSS custom property:
+
+```css
+:root {
+  --dsh-answer-share-icon-size: 20px; /* any value from 12px to 24px */
+}
+```
+
 ## Localization
 
 The action labels, menus, toast messages, error reasons, and plugin metadata

@@ -14,6 +14,60 @@ window.__ModuleLoader__.load({
 
     /** Locale namespace for the plugin's action and toast strings. */
     const NS = 'answer-share'
+
+    /** The action icon's size can be tuned from the plugin detail page. */
+    const ICON_SIZE_VAR = '--dsh-answer-share-icon-size'
+    const ICON_SIZE_STORAGE_KEY = 'dsh-answer-share.icon-size'
+    const ICON_SIZE_MIN = 12
+    const ICON_SIZE_MAX = 24
+    const ICON_SIZE_DEFAULT = 20.5
+
+    function clampIconSize(value) {
+      if (!Number.isFinite(value)) return ICON_SIZE_DEFAULT
+      return Math.min(ICON_SIZE_MAX, Math.max(ICON_SIZE_MIN, Math.round(value * 10) / 10))
+    }
+
+    function formatIconSize(value) {
+      return String(clampIconSize(value)).replace(/\.0$/, '')
+    }
+
+    function storedIconSize() {
+      try {
+        const raw = window.localStorage.getItem(ICON_SIZE_STORAGE_KEY)
+        if (raw === null) return null
+        const value = Number(raw)
+        return Number.isFinite(value) ? clampIconSize(value) : null
+      } catch {
+        return null
+      }
+    }
+
+    function currentIconSize() {
+      const stored = storedIconSize()
+      if (stored !== null) return stored
+      try {
+        const value = Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue(ICON_SIZE_VAR))
+        if (Number.isFinite(value)) return clampIconSize(value)
+      } catch {
+        // Fall through to the built-in default.
+      }
+      return ICON_SIZE_DEFAULT
+    }
+
+    function applyIconSize(value) {
+      document.documentElement.style.setProperty(ICON_SIZE_VAR, `${clampIconSize(value)}px`)
+    }
+
+    function saveIconSize(value) {
+      const clamped = clampIconSize(value)
+      applyIconSize(clamped)
+      try {
+        window.localStorage.setItem(ICON_SIZE_STORAGE_KEY, String(clamped))
+      } catch {
+        // A blocked storage API only affects persistence, not the live size.
+      }
+      return clamped
+    }
     /** Portable document typography shared by the clipboard HTML and the PNG. */
     const BASE_STYLE = 'font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"PingFang SC","Microsoft YaHei",sans-serif;'
       + 'font-size:14px;line-height:1.7;color:#1f2328;word-break:break-word;'
@@ -28,6 +82,11 @@ window.__ModuleLoader__.load({
       zh: {
         "action.image": "复制回答为图片",
         "action.more": "更多复制方式",
+        "config.summary": "图标大小：{size}px",
+        "config.title": "图标大小",
+        "config.description": "调整回答操作栏中复制图标的大小，可选范围 12–24px。",
+        "config.reset": "恢复默认",
+        "config.saved": "已保存",
         "menu.image": "复制为图片（默认）",
         "menu.html": "复制为富文本 HTML",
         "menu.download": "下载 PNG 图片",
@@ -51,6 +110,11 @@ window.__ModuleLoader__.load({
       en: {
         "action.image": "Copy answer as image",
         "action.more": "More copy options",
+        "config.summary": "Icon size: {size}px",
+        "config.title": "Icon size",
+        "config.description": "Adjust the copy icon in the answer action bar. Range: 12–24px.",
+        "config.reset": "Reset to default",
+        "config.saved": "Saved",
         "menu.image": "Copy as image (default)",
         "menu.html": "Copy as rich-text HTML",
         "menu.download": "Download PNG image",
@@ -74,6 +138,11 @@ window.__ModuleLoader__.load({
       ja: {
         "action.image": "回答を画像としてコピー",
         "action.more": "その他のコピー方法",
+        "config.summary": "アイコンサイズ：{size}px",
+        "config.title": "アイコンサイズ",
+        "config.description": "回答アクションバーのコピーアイコンのサイズを調整します。範囲は 12〜24px です。",
+        "config.reset": "デフォルトに戻す",
+        "config.saved": "保存しました",
         "menu.image": "画像としてコピー（既定）",
         "menu.html": "リッチテキスト HTML としてコピー",
         "menu.download": "PNG 画像をダウンロード",
@@ -97,6 +166,11 @@ window.__ModuleLoader__.load({
       es: {
         "action.image": "Copiar respuesta como imagen",
         "action.more": "Más opciones de copia",
+        "config.summary": "Tamaño del icono: {size}px",
+        "config.title": "Tamaño del icono",
+        "config.description": "Ajusta el icono de copia en la barra de acciones. Intervalo: 12–24 px.",
+        "config.reset": "Restablecer",
+        "config.saved": "Guardado",
         "menu.image": "Copiar como imagen (predeterminado)",
         "menu.html": "Copiar como HTML con formato",
         "menu.download": "Descargar imagen PNG",
@@ -120,6 +194,11 @@ window.__ModuleLoader__.load({
       fr: {
         "action.image": "Copier la réponse en image",
         "action.more": "Plus d'options de copie",
+        "config.summary": "Taille de l’icône : {size}px",
+        "config.title": "Taille de l’icône",
+        "config.description": "Ajustez l’icône de copie dans la barre d’actions. Plage : 12–24 px.",
+        "config.reset": "Réinitialiser",
+        "config.saved": "Enregistré",
         "menu.image": "Copier en image (par défaut)",
         "menu.html": "Copier en HTML enrichi",
         "menu.download": "Télécharger l'image PNG",
@@ -143,6 +222,11 @@ window.__ModuleLoader__.load({
       de: {
         "action.image": "Antwort als Bild kopieren",
         "action.more": "Weitere Kopieroptionen",
+        "config.summary": "Symbolgröße: {size}px",
+        "config.title": "Symbolgröße",
+        "config.description": "Passt das Kopiersymbol in der Aktionsleiste an. Bereich: 12–24 px.",
+        "config.reset": "Zurücksetzen",
+        "config.saved": "Gespeichert",
         "menu.image": "Als Bild kopieren (Standard)",
         "menu.html": "Als Rich-Text-HTML kopieren",
         "menu.download": "PNG-Bild herunterladen",
@@ -166,6 +250,11 @@ window.__ModuleLoader__.load({
       ru: {
         "action.image": "Скопировать ответ как изображение",
         "action.more": "Другие способы копирования",
+        "config.summary": "Размер значка: {size}px",
+        "config.title": "Размер значка",
+        "config.description": "Настройте значок копирования на панели действий. Диапазон: 12–24 px.",
+        "config.reset": "Сбросить",
+        "config.saved": "Сохранено",
         "menu.image": "Копировать как изображение (по умолчанию)",
         "menu.html": "Копировать как форматированный HTML",
         "menu.download": "Скачать PNG-изображение",
@@ -189,6 +278,11 @@ window.__ModuleLoader__.load({
       pt: {
         "action.image": "Copiar resposta como imagem",
         "action.more": "Mais opções de cópia",
+        "config.summary": "Tamanho do ícone: {size}px",
+        "config.title": "Tamanho do ícone",
+        "config.description": "Ajuste o ícone de cópia na barra de ações. Intervalo: 12–24 px.",
+        "config.reset": "Restaurar",
+        "config.saved": "Salvo",
         "menu.image": "Copiar como imagem (padrão)",
         "menu.html": "Copiar como HTML formatado",
         "menu.download": "Baixar imagem PNG",
@@ -217,11 +311,23 @@ window.__ModuleLoader__.load({
       .dsh-ans-share-main,.dsh-ans-share-caret{display:inline-flex;align-items:center;justify-content:center;height:calc(28px + var(--dsh-content-font-delta,0px));padding:0;border:none;border-radius:var(--dsw-radius-sm,6px);background:transparent;color:var(--dsw-alias-label-tertiary);cursor:pointer;font:inherit}
       .dsh-ans-share-main{width:calc(28px + var(--dsh-content-font-delta,0px))}
       .dsh-ans-share-caret{width:15px;opacity:.72}
-      .dsh-ans-share-main svg{width:calc(17px + var(--dsh-content-font-delta,0px));height:calc(17px + var(--dsh-content-font-delta,0px))}
+      /* Icon size is user-tunable through --dsh-answer-share-icon-size.
+         clamp() keeps it inside the range that still fits the 28px button. */
+      .dsh-ans-share-main svg{width:clamp(12px,var(--dsh-answer-share-icon-size,calc(20.5px + var(--dsh-content-font-delta,0px))),24px);height:clamp(12px,var(--dsh-answer-share-icon-size,calc(20.5px + var(--dsh-content-font-delta,0px))),24px)}
       .dsh-ans-share-caret svg{width:11px;height:11px}
       .dsh-ans-share-main:hover,.dsh-ans-share-caret:hover{background:var(--dsw-alias-interactive-bg-hover);color:var(--dsw-alias-label-secondary)}
       .dsh-ans-share-main:focus-visible,.dsh-ans-share-caret:focus-visible{outline:2px solid var(--dsw-alias-brand-primary);outline-offset:1px}
       .dsh-ans-share[data-busy] .dsh-ans-share-main,.dsh-ans-share[data-busy] .dsh-ans-share-caret{opacity:.45;cursor:default;pointer-events:none}
+      .dsh-ans-config{display:flex;flex-direction:column;gap:10px;max-width:460px;font:inherit}
+      .dsh-ans-config-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+      .dsh-ans-config-title{font-size:14px;font-weight:500;color:var(--dsw-alias-label-primary,#111)}
+      .dsh-ans-config-value{font-size:13px;font-variant-numeric:tabular-nums;color:var(--dsw-alias-label-secondary,#555)}
+      .dsh-ans-config input[type="range"]{width:100%;margin:0;accent-color:var(--dsw-alias-brand-primary,#247bbf);cursor:pointer}
+      .dsh-ans-config-foot{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+      .dsh-ans-config-hint{font-size:12px;line-height:1.5;color:var(--dsw-alias-label-tertiary,#777)}
+      .dsh-ans-config-reset{flex:none;padding:0;border:none;background:transparent;color:var(--dsw-alias-brand-primary,#247bbf);font:inherit;font-size:12px;cursor:pointer}
+      .dsh-ans-config-reset:hover{text-decoration:underline}
+      .dsh-ans-config-saved{font-size:12px;color:var(--dsw-alias-state-success-primary,#12805c)}
       .dsh-ans-menu{position:fixed;z-index:10000;min-width:204px;padding:5px;display:flex;flex-direction:column;gap:2px;background:var(--dsw-alias-bg-overlay,#fff);border:1px solid var(--dsw-alias-border-l1,#e5e7eb);border-radius:10px;box-shadow:0 10px 28px rgba(0,0,0,.16)}
       .dsh-ans-menu button{display:flex;align-items:center;width:100%;padding:8px 10px;border:none;border-radius:6px;background:transparent;color:var(--dsw-alias-label-primary,#111);font:inherit;font-size:13px;line-height:1.4;text-align:left;cursor:pointer}
       .dsh-ans-menu button:hover{background:var(--dsw-alias-interactive-bg-hover,rgba(0,0,0,.06))}
@@ -662,6 +768,42 @@ window.__ModuleLoader__.load({
       }, h('path', { d: 'M2.5 4.5L6 8l3.5-3.5' }))
     }
 
+    /** Config page rendered on this bundle's detail page in Plugins. */
+    function IconSizeSettings(props) {
+      const t = typeof props.t === 'function' ? props.t : key => DICTIONARIES.zh[key] ?? key
+      const [size, setSize] = React.useState(currentIconSize)
+      const [saved, setSaved] = React.useState(false)
+      const change = (value) => {
+        setSize(saveIconSize(value))
+        setSaved(true)
+      }
+      if (props.view === 'summary') {
+        return h('span', null, t('config.summary').replace('{size}', formatIconSize(size)))
+      }
+      return h('div', { className: 'dsh-ans-config' },
+        h('div', { className: 'dsh-ans-config-head' },
+          h('span', { className: 'dsh-ans-config-title' }, t('config.title')),
+          h('output', { className: 'dsh-ans-config-value', htmlFor: 'dsh-ans-icon-size' }, `${formatIconSize(size)}px`)),
+        h('input', {
+          id: 'dsh-ans-icon-size',
+          type: 'range',
+          min: ICON_SIZE_MIN,
+          max: ICON_SIZE_MAX,
+          step: 0.1,
+          value: size,
+          'aria-label': t('config.title'),
+          onChange: event => change(Number(event.target.value)),
+        }),
+        h('div', { className: 'dsh-ans-config-foot' },
+          h('span', { className: 'dsh-ans-config-hint' }, t('config.description')),
+          h('button', {
+            type: 'button',
+            className: 'dsh-ans-config-reset',
+            onClick: () => change(ICON_SIZE_DEFAULT),
+          }, t('config.reset'))),
+        saved ? h('span', { className: 'dsh-ans-config-saved', role: 'status' }, t('config.saved')) : null)
+    }
+
     function AnswerShareAction(props) {
       const t = typeof props.t === 'function' ? props.t : key => DICTIONARIES.zh[key] ?? key
       const rootRef = React.useRef(null)
@@ -782,6 +924,16 @@ window.__ModuleLoader__.load({
             disposeToast()
           }
         }, '@fushouhai/dsh-session-copy-plus: styles and toast')
+        ctx.effect(() => {
+          const stored = storedIconSize()
+          if (stored !== null) applyIconSize(stored)
+          return () => document.documentElement.style.removeProperty(ICON_SIZE_VAR)
+        }, '@fushouhai/dsh-session-copy-plus: icon size')
+        ctx.slots.inject('plugins.bundle.config', () => ctx.slots.register({
+          name: 'plugins.bundle.config',
+          key: '@fushouhai/dsh-session-copy-plus',
+          locale: NS,
+        }, IconSizeSettings))
         ctx.slots.inject('conversation.chat.assistant-actions', () => ctx.slots.register({
           name: 'conversation.chat.assistant-actions',
           id: 'answer-share',

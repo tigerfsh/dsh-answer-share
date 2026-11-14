@@ -1,6 +1,6 @@
 {
   "name": "@fushouhai/dsh-session-copy-plus",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "type": "module",
   "description": "Copy a finalized DSH answer as a long PNG image (default) or as rich-text HTML, ready to paste into DingTalk and other editors.",
   "exports": {
@@ -28,7 +28,8 @@
       "inject": [
         "@deepseek-ai/dsh-client-locale",
         "@deepseek-ai/dsh-client-ui-conversation",
-        "@deepseek-ai/dsh-client-ui-renderer"
+        "@deepseek-ai/dsh-client-ui-renderer",
+        "@deepseek-ai/dsh-client-ui-plugin-manager"
       ]
     }
   },
